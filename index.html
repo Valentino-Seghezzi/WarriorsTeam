@@ -78,7 +78,7 @@ ul{ list-style:none; }
 .crack-divider svg{ position:absolute; inset:0; width:100%; height:100%; opacity:.35; }
 
 /* ==================================================================
-   NAVEGACIÓN
+   NAVEGACIÓN (SIDEBAR RECTO A LO LARGO DE LA PANTALLA)
    ================================================================== */
 .navbar{
   position:fixed; top:0; left:0; right:0; z-index:1000;
@@ -119,18 +119,56 @@ ul{ list-style:none; }
 
 @media(max-width:860px){
   .nav-links{
-    position:fixed; top:64px; left:0; right:0; bottom:0;
-    background:var(--black); flex-direction:column; padding:40px 24px;
-    transform:translateX(100%); transition:transform .3s ease;
+    position: fixed; 
+    top: 0; 
+    right: 0; 
+    height: 100vh; /* Se estira a lo largo de toda la pantalla */
+    width: 45%; /* Ancho de la barra lateral */
+    min-width: 170px; 
+    background: #1a1a1a !important; /* Gris oscuro sólido para cubrir el fondo */
+    border-left: 2px solid rgba(211,47,47,0.3); /* Línea divisoria vertical */
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: flex-start; /* Apartados alineados a la izquierda */
+    padding: 90px 24px 40px; 
+    transform: translateX(100%); 
+    transition: transform .3s ease;
+    z-index: 9999; 
+    overflow-y: auto;
+    box-shadow: -5px 0 25px rgba(0,0,0,0.6);
   }
-  .nav-links.open{ transform:translateX(0); }
-  .nav-links a{ font-size:20px; padding:12px 0; border-bottom:1px solid var(--charcoal); }
-  .nav-toggle{ display:block; }
-  .nav-cta{ display:none; }
+  .nav-links.open{ transform: translateX(0); }
+  
+  .nav-links li {
+    width: 100%; 
+    display: block;
+  }
+
+  .nav-links a{ 
+    font-size: 18px; 
+    padding: 14px 0; 
+    border-bottom: 1px solid rgba(255,255,255,0.05); 
+    display: block; 
+    width: 100%; 
+    text-align: left; 
+    color: var(--white) !important; 
+  }
+
+  /* Oculta el CTA duplicado en celulares */
+  .nav-links .nav-cta {
+    display: none !important;
+  }
+  
+  .nav-toggle{ 
+    display: block; 
+    position: relative;
+    z-index: 10000; 
+  }
 }
 
 /* ==================================================================
-   HERO (CON IMAGEN DE FONDO ESTIRADA Y DESVANECIDA)
+   HERO
    ================================================================== */
 .hero{
   position:relative;
@@ -256,8 +294,8 @@ p.sub{ margin-top:14px; color:var(--gray-dim); font-size:17px; max-width:560px; 
     linear-gradient(rgba(12,12,12,.86), rgba(12,12,12,.86)),
     repeating-linear-gradient(115deg, #000 0 2px, #151515 2px 40px);
   text-align:center;
-  border-top:1px solid rgba(211,47,47,.25);
-  border-bottom:1px solid rgba(211,47,47,.25);
+  border-top:3px solid var(--red);
+  border-bottom:3px solid var(--red);
 }
 .motiv-band p{
   font-family:var(--f-display); text-transform:uppercase;
@@ -455,7 +493,7 @@ footer p.desc{ color:var(--gray-dim); font-size:14.5px; max-width:320px; }
         <h2>Diego Arredondo</h2>
         <div class="role">Entrenador principal — WarriorsTeam</div>
         <p>Diego lidera cada clase con la exigencia de la competencia y la cercanía de quien entrena a su equipo. Su método combina la técnica del Kickboxing y el K1 con la fuerza funcional del CrossFit, adaptado a cada alumno, desde quien da su primer golpe hasta quien compite.</p>
-        <p>Más que un gimnasio, WarriorsTeam is un equipo: acá se suda, se corrige and se acompaña.</p>
+        <p>Más que un gimnasio, WarriorsTeam es un equipo: acá se suda, se corrige y se acompaña.</p>
         <div class="coach-quote">"No entreno campeones de un día. Entreno gente que no se rinde."</div>
         <div class="coach-tags">
           <span>Kickboxing</span><span>K1</span><span>Boxeo</span><span>CrossFit</span><span>Preparación física</span>
@@ -642,11 +680,17 @@ footer p.desc{ color:var(--gray-dim); font-size:14.5px; max-width:320px; }
 <a class="wa-float" href="https://wa.me/5493564577953?text=Hola%20WarriorsTeam!" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">💬</a>
 
 <script>
-  // Menú móvil
+  // Menú móvil con apertura y cierre automático al elegir sección
   const navToggle = document.getElementById('navToggle');
   const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  
+  navToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
 
   // Reveal on scroll
   const observer = new IntersectionObserver((entries) => {
